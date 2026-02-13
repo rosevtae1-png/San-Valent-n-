@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nuestra Historia 💖</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Arial',sans-serif;}
+body{
+height:100vh;
+overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+background:black;
+color:white;
+text-align:center;
+}
+
+/* FONDO ESTRELLAS */
+body::before{
+content:"";
+position:absolute;
+width:200%;
+height:200%;
+background:radial-gradient(white 1px, transparent 1px);
+background-size:50px 50px;
+animation:stars 100s linear infinite;
+opacity:0.2;
+}
+
+@keyframes stars{
+from{transform:translate(0,0);}
+to{transform:translate(-500px,-500px);}
+}
+
+.section{display:none;position:relative;z-index:2;padding:20px;max-width:600px;width:100%;}
+.active{display:block;animation:fade 1s;}
+
+@keyframes fade{
+from{opacity:0;}
+to{opacity:1;}
+}
+
+button{
+padding:12px 25px;
+border:none;
+border-radius:30px;
+font-weight:bold;
+cursor:pointer;
+margin:10px;
+transition:0.3s;
+}
+
+.next,.yes{background:#ff4d6d;color:white;}
+.next:hover,.yes:hover{transform:scale(1.1);}
+.no{background:black;color:white;position:absolute;}
+
+.envelope{
+font-size:26px;
+cursor:pointer;
+animation:latido 1.5s infinite;
+}
+
+@keyframes latido{
+0%{transform:scale(1);}
+50%{transform:scale(1.15);}
+100%{transform:scale(1);}
+}
+
+.heart{
+font-size:90px;
+color:red;
+animation:latido 1.5s infinite;
+}
+
+.clock{font-size:70px;margin:20px 0;}
+
+#error{
+background:black;
+color:red;
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+font-size:60px;
+animation:glitch 0.3s infinite alternate;
+}
+
+@keyframes glitch{
+from{transform:translate(2px,2px);}
+to{transform:translate(-2px,-2px);}
+}
+
+.card{
+background:white;
+color:black;
+padding:25px;
+border-radius:20px;
+box-shadow:0 0 30px rgba(255,0,100,0.6);
+position:relative;
+overflow:hidden;
+}
+
+.hearts{
+position:absolute;
+width:100%;
+height:100%;
+top:0;
+left:0;
+pointer-events:none;
+}
+
+.hearts span{
+position:absolute;
+color:red;
+font-size:20px;
+animation:flotar 6s linear infinite;
+}
+
+@keyframes flotar{
+0%{transform:translateY(0);opacity:1;}
+100%{transform:translateY(-400px);opacity:0;}
+}
+
+.typewriter{
+border-right:3px solid black;
+white-space:pre-wrap;
+overflow:hidden;
+}
+</style>
+</head>
+
+<body>
+
+<audio autoplay loop>
+<source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+</audio>
+
+<!-- SOBRE -->
+<div id="sobre" class="section active">
+<div class="envelope">💌 Toca para abrir 💌</div>
+</div>
+
+<!-- RELOJ -->
+<div id="reloj" class="section">
+<h3>19 de septiembre a las 4am inició la relación más bonita que pude haber pedido 💖</h3>
+<div class="clock">⏰</div>
+<div id="contador"></div>
+<button class="next" onclick="mostrar('pregunta')">Siguiente</button>
+</div>
+
+<!-- PREGUNTA -->
+<div id="pregunta" class="section">
+<div class="heart">❤️</div>
+<h2>¿Quieres ser mi San Valentín?</h2>
+<button class="yes" onclick="mostrarCarta()">Sí</button>
+<button class="no" id="noBtn">No</button>
+</div>
+
+<!-- CARTA -->
+<div id="carta" class="section">
+<div class="card">
+<h2>💖 Para Ti 💖</h2>
+<p id="texto" class="typewriter"></p>
+<div class="hearts"></div>
+</div>
+</div>
+
+<!-- ERROR -->
+<div id="error" class="section">
+<div>ERROR 404</div>
+<button onclick="alerta()">Reintentar</button>
+</div>
+
+<script>
+
+document.getElementById("sobre").onclick=function(){
+mostrar("reloj");
+}
+
+/* Mostrar sección */
+function mostrar(id){
+document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
+
+/* Contador */
+function actualizarContador(){
+let inicio=new Date("2024-09-19T04:00:00-06:00");
+let ahora=new Date();
+let diff=ahora-inicio;
+
+let d=Math.floor(diff/(1000*60*60*24));
+let h=Math.floor((diff/(1000*60*60))%24);
+let m=Math.floor((diff/(1000*60))%60);
+let s=Math.floor((diff/1000)%60);
+
+document.getElementById("contador").innerHTML=
+d+" días "+h+" horas "+m+" minutos "+s+" segundos 💖";
+}
+setInterval(actualizarContador,1000);
+
+/* Botón NO imposible */
+let noBtn=document.getElementById("noBtn");
+noBtn.addEventListener("mouseover",function(){
+let x=Math.random()*400-200;
+let y=Math.random()*400-200;
+noBtn.style.transform=`translate(${x}px,${y}px)`;
+});
+noBtn.addEventListener("click",()=>mostrar("error"));
+
+function alerta(){
+alert("⚠️ ATENCIÓN ⚠️\nNo puedes rechazar esta propuesta 💕");
+mostrar("pregunta");
+}
+
+/* Máquina de escribir */
+const mensaje=`Me has hecho la persona más feliz del universo 💕🌌
+
+Gracias por llenar mis días de felicidad y alegría,
+eres alguien maravilloso que se merece todo lo bueno del mundo...
+
+Soy muy afortunada de tenerte en mi vida 💖✨
+
+Te amo... amo todo de ti y agradezco cada segundo
+que puedo estar contigo ❤️✨
+
+¡¡FELIZ DÍA DE SAN VALENTÍN!!`;
+
+function mostrarCarta(){
+mostrar("carta");
+let i=0;
+let texto="";
+let target=document.getElementById("texto");
+let interval=setInterval(()=>{
+texto+=mensaje[i];
+target.innerHTML=texto;
+i++;
+if(i>=mensaje.length)clearInterval(interval);
+},40);
+}
+
+/* Corazones flotando */
+let hearts=document.querySelector(".hearts");
+for(let i=0;i<30;i++){
+let span=document.createElement("span");
+span.innerHTML="❤️";
+span.style.left=Math.random()*100+"%";
+span.style.top=Math.random()*100+"%";
+span.style.animationDuration=(Math.random()*4+3)+"s";
+hearts.appendChild(span);
+}
+
+</script>
+
+</body>
+</html>
