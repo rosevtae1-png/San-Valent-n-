@@ -7,6 +7,7 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Arial',sans-serif;}
+
 body{
 height:100vh;
 overflow:hidden;
@@ -35,8 +36,19 @@ from{transform:translate(0,0);}
 to{transform:translate(-500px,-500px);}
 }
 
-.section{display:none;position:relative;z-index:2;padding:20px;max-width:600px;width:100%;}
-.active{display:block;animation:fade 1s;}
+.section{
+display:none;
+position:relative;
+z-index:2;
+padding:20px;
+max-width:600px;
+width:100%;
+}
+
+.active{
+display:block;
+animation:fade 1s;
+}
 
 @keyframes fade{
 from{opacity:0;}
@@ -53,9 +65,20 @@ margin:10px;
 transition:0.3s;
 }
 
-.next,.yes{background:#ff4d6d;color:white;}
-.next:hover,.yes:hover{transform:scale(1.1);}
-.no{background:black;color:white;position:absolute;}
+.next,.yes{
+background:#ff4d6d;
+color:white;
+}
+
+.next:hover,.yes:hover{
+transform:scale(1.1);
+}
+
+.no{
+background:black;
+color:white;
+position:absolute;
+}
 
 .envelope{
 font-size:26px;
@@ -75,23 +98,9 @@ color:red;
 animation:latido 1.5s infinite;
 }
 
-.clock{font-size:70px;margin:20px 0;}
-
-#error{
-background:black;
-color:red;
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-font-size:60px;
-animation:glitch 0.3s infinite alternate;
-}
-
-@keyframes glitch{
-from{transform:translate(2px,2px);}
-to{transform:translate(-2px,-2px);}
+.clock{
+font-size:70px;
+margin:20px 0;
 }
 
 .card{
@@ -130,14 +139,27 @@ border-right:3px solid black;
 white-space:pre-wrap;
 overflow:hidden;
 }
+
+/* ERROR PANTALLA COMPLETA */
+#error{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:black;
+color:red;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+font-size:60px;
+z-index:9999;
+}
 </style>
 </head>
 
 <body>
-
-<audio autoplay loop>
-<source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
-</audio>
 
 <!-- SOBRE -->
 <div id="sobre" class="section active">
@@ -172,11 +194,18 @@ overflow:hidden;
 <!-- ERROR -->
 <div id="error" class="section">
 <div>ERROR 404</div>
-<button onclick="alerta()">Reintentar</button>
+<div style="font-size:18px;margin-top:20px;">
+La opción "No" no está disponible 💔
+</div>
+<button onclick="alerta()" 
+style="background:red;color:white;margin-top:30px;">
+Reintentar
+</button>
 </div>
 
 <script>
 
+/* Abrir sobre */
 document.getElementById("sobre").onclick=function(){
 mostrar("reloj");
 }
@@ -203,30 +232,31 @@ d+" días "+h+" horas "+m+" minutos "+s+" segundos 💖";
 }
 setInterval(actualizarContador,1000);
 
-/* Botón NO imposible */
+/* Botón NO */
 let noBtn=document.getElementById("noBtn");
+
 noBtn.addEventListener("mouseover",function(){
 let x=Math.random()*400-200;
 let y=Math.random()*400-200;
 noBtn.style.transform=`translate(${x}px,${y}px)`;
 });
-noBtn.addEventListener("click",()=>mostrar("error"));
 
+noBtn.addEventListener("click",function(){
+mostrar("error");
+});
+
+/* Reintentar */
 function alerta(){
-alert("⚠️ ATENCIÓN ⚠️\nNo puedes rechazar esta propuesta 💕");
+alert("⚠️ ATENCIÓN ⚠️\nLo siento usted no puede rechazar esta propuesta... ✨");
 mostrar("pregunta");
 }
 
 /* Máquina de escribir */
-const mensaje=`Me has hecho la persona más feliz del universo 💕🌌
-
-Gracias por llenar mis días de felicidad y alegría,
-eres alguien maravilloso que se merece todo lo bueno del mundo...
+const mensaje=`Gracias por llenar mis días de felicidad y alegría, eres alguien maravilloso que se merece todo lo bueno del mundo.
 
 Soy muy afortunada de tenerte en mi vida 💖✨
 
-Te amo... amo todo de ti y agradezco cada segundo
-que puedo estar contigo ❤️✨
+Te amo... amo todo de ti y agradezco cada segundo que puedo estar contigo ❤️✨
 
 ¡¡FELIZ DÍA DE SAN VALENTÍN!!`;
 
@@ -243,7 +273,7 @@ if(i>=mensaje.length)clearInterval(interval);
 },40);
 }
 
-/* Corazones flotando */
+/* Corazones */
 let hearts=document.querySelector(".hearts");
 for(let i=0;i<30;i++){
 let span=document.createElement("span");
